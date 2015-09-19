@@ -2,8 +2,10 @@
 
 #******************************************************************************
 #
-#  CS 6421 - Simple Conversation
-#  Execution:    python convServer.py portnum
+#  CS 6421 - Simple Conversion
+#  Execution:    python dollarsYen.py portnum
+#  Author: Tim Stamler
+#  Group: Malcolm Goldiner
 #
 #******************************************************************************
 

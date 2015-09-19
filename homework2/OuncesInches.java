@@ -1,10 +1,10 @@
 /******************************************************************************
  *
  *  CS 6421 - Simple Conversation
- *  Compilation:  javac ConvServer.java
- *  Execution:    java ConvServer port
+ *  Compilation:  javac OuncesInches.java
+ *  Execution:    java OuncesInches port
  *
- *  % java ConvServer portnum
+ *  % java OuncesInches portnum
  ******************************************************************************/
 
 import java.net.Socket;
