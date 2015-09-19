@@ -24,7 +24,7 @@ public class OuncesInches {
     
     
     public static int conversion(int num, String unit){
-        if(unit.equals("b")) return num * 8;
+        if(unit.equals("ounces")) return num * 8;
         else  return  num / 8; 
     }
     
@@ -36,7 +36,7 @@ public class OuncesInches {
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 
         /* Write a welcome message to the client */
-        out.println("Welcome to the Bananas (b) to length in inches (in) Conversion Server");
+        out.println("Welcome to the Bananas (ounces) to length in inches (inches) Conversion Server");
 
         /* read and print the client's request */
         // readLine() blocks until the server receives a new line from client
@@ -52,8 +52,8 @@ public class OuncesInches {
         //--TODO: add your converting functions here, msg = func(userInput);
         String[] inputArr = userInput.split(" "); 
         
-        if((!inputArr[0].equals("in") && !inputArr[1].equals("b"))
-        && (!inputArr[0].equals("b") && !inputArr[1].equals("in"))) {
+        if((!inputArr[0].equals("inches") && !inputArr[1].equals("ounces"))
+        && (!inputArr[0].equals("ounces") && !inputArr[1].equals("inches"))) {
             out.println("Sorry, that conversion isn't supported");
         } else {
             if(inputArr[0].equals("b")) out.println(inputArr[2] + " bananas is " + conversion(Integer.valueOf(inputArr[2]), inputArr[0]) + " inches in length");
