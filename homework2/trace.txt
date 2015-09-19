@@ -1,0 +1,5 @@
+Trying 161.253.114.182...
+Connected to 161.253.114.182.
+Escape character is '^]'.
+Welcome to the ounces of bananas/yen converter!
+400.0
