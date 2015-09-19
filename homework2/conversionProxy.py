@@ -1,6 +1,11 @@
-# CS 6421 - Simple Message Board Client in Python
-# T. Wood
-# Run with:     python msgclient.py
+#******************************************************************************
+#
+#  CS 6421 - Conversion Proxy
+#  Execution:    python conversionProxy.py portnum
+#  Author: Tim Stamler
+#  Group: Malcolm Goldiner
+#
+#******************************************************************************
 
 import socket
 import sys
@@ -14,34 +19,31 @@ ouncesDollarsPort = 5555
 dollarsYenHost = "localhost"
 dollarsYenPort = 6666
 
-def convert(unit, userInput):
-    if unit == "ounces":
-        clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        clientsocket.connect((ouncesDollarsHost, ouncesDollarsPort))
-        print clientsocket.recv(BUFFER_SIZE)
-        clientsocket.send("ounces dollars " + userInput + "\n")
-        result = clientsocket.recv(BUFFER_SIZE)
+inchesOuncesHost = "localhost"
+inchesOuncesPort = 7777
 
-        clientsocket.close()
-        clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        clientsocket.connect((dollarsYenHost, dollarsYenPort))
-        print clientsocket.recv(BUFFER_SIZE)
-        clientsocket.send("dollars yen " + str(result) + "\n")
-        return float(clientsocket.recv(BUFFER_SIZE))
+def remoteConvert(host, port, args):
+    clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientsocket.connect((host, port))
+    print clientsocket.recv(BUFFER_SIZE)
+    clientsocket.send(args[0] + " " + args[1] + " " + args[2] + "\n")
+    return clientsocket.recv(BUFFER_SIZE)
+    
+    
+def convert(conn, unit, userInput):
+    if unit == "inches":
+        result = remoteConvert(inchesOuncesHost, inchesOuncesPort, ["inches", "ounces", userInput])
+        conn.send("Converted from inches to ounces: " + result + "\n")
+        result = remoteConvert(ouncesDollarsHost, ouncesDollarsPort, ["ounces", "dollars", result])
+        conn.send("Converted from ounces to dollars: " + result + "\n")
+        return float(remoteConvert(dollarsYenHost, dollarsYenPort, ["dollars", "yen", result]))
         
     elif unit == "yen":
-        clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        clientsocket.connect((dollarsYenHost, dollarsYenPort))
-        print clientsocket.recv(BUFFER_SIZE)
-        clientsocket.send("yen dollars " + str(userInput) + "\n")
-        result = clientsocket.recv(BUFFER_SIZE)
-         
-        clientsocket.close()
-        clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        clientsocket.connect((ouncesDollarsHost, ouncesDollarsPort))
-        print clientsocket.recv(BUFFER_SIZE)
-        clientsocket.send("dollars ounces " + result + "\n")
-        return float(clientsocket.recv(BUFFER_SIZE))
+        result = remoteConvert(dollarsYenHost, dollarsYenPort, ["yen", "dollars", userInput])
+        conn.send("Converted from yen to dollars: " + result + "\n")
+        result = remoteConvert(ouncesDollarsHost, ouncesDollarsPort, ["dollars", "ounces", result])
+        conn.send("Converted from dollars to ounces: " + result + "\n")
+        return float(remoteConvert(inchesOuncesHost, inchesOuncesPort, ["ounces", "inches", result]))
 
 ## Function to process requests
 def process(conn):
@@ -60,20 +62,21 @@ def process(conn):
         conn.close()
         return
     
-    if inputList[0] == "ounces" and inputList[1] != "yen":
+    if inputList[0] == "inches" and inputList[1] != "yen":
         conn.send("Invalid input!\n")
         conn.close()
         return
         
-    if inputList[0] == "yen" and inputList[1] != "ounces":
+    if inputList[0] == "yen" and inputList[1] != "inches":
         conn.send("Invalid input!\n")
         conn.close()
         return
 
-    result = convert(inputList[0], inputList[2])
+    result = convert(conn, inputList[0], inputList[2])
         
     print "Received message: ", userInput
     
+    conn.send("Final result: \n")
     conn.send(str(result) + "\n")
 
     conn.close()
