@@ -20,7 +20,7 @@ import java.io.InputStreamReader;
 // Malcolm Goldiner
 // Group Member: Tim Stamler
 
-public class ConvServer {
+public class OuncesInches {
     
     
     public static int conversion(int num, String unit){
