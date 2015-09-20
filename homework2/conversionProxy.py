@@ -13,13 +13,13 @@ import sys
 BUFFER_SIZE = 1024
 interface = ""
 
-ouncesDollarsHost = "localhost"
+ouncesDollarsHost = "malcolmgoldiner@koding.io"
 ouncesDollarsPort = 5555
 
-dollarsYenHost = "localhost"
+dollarsYenHost = "timstamler@koding.io"
 dollarsYenPort = 6666
 
-inchesOuncesHost = "localhost"
+inchesOuncesHost = "timstamler@koding.io"
 inchesOuncesPort = 7777
 
 def remoteConvert(host, port, args):
@@ -33,21 +33,21 @@ def remoteConvert(host, port, args):
 def convert(conn, unit, userInput):
     if unit == "inches":
         result = remoteConvert(inchesOuncesHost, inchesOuncesPort, ["inches", "ounces", userInput])
-        conn.send("Converted from inches to ounces: " + result + "\n")
+        conn.send("Converted from inches to ounces: " + result + " ounces\n")
         result = remoteConvert(ouncesDollarsHost, ouncesDollarsPort, ["ounces", "dollars", result])
-        conn.send("Converted from ounces to dollars: " + result + "\n")
+        conn.send("Converted from ounces to dollars: " + result + " dollars\n")
         return float(remoteConvert(dollarsYenHost, dollarsYenPort, ["dollars", "yen", result]))
         
     elif unit == "yen":
         result = remoteConvert(dollarsYenHost, dollarsYenPort, ["yen", "dollars", userInput])
-        conn.send("Converted from yen to dollars: " + result + "\n")
+        conn.send("Converted from yen to dollars: " + result)
         result = remoteConvert(ouncesDollarsHost, ouncesDollarsPort, ["dollars", "ounces", result])
-        conn.send("Converted from dollars to ounces: " + result + "\n")
+        conn.send("Converted from dollars to ounces: " + result)
         return float(remoteConvert(inchesOuncesHost, inchesOuncesPort, ["ounces", "inches", result]))
 
 ## Function to process requests
 def process(conn):
-    conn.send("Welcome to the ounces of bananas/yen converter!\n")
+    conn.send("Welcome to the inches of bananas/yen converter!\n")
 
     # read userInput from client
     userInput = conn.recv(BUFFER_SIZE)
@@ -77,7 +77,7 @@ def process(conn):
     print "Received message: ", userInput
     
     conn.send("Final result: \n")
-    conn.send(str(result) + "\n")
+    conn.send(str(result) + " " + inputList[1] + "\n")
 
     conn.close()
 

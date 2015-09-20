@@ -23,7 +23,7 @@ import java.io.InputStreamReader;
 public class OuncesInches {
     
     
-    public static int conversion(int num, String unit){
+    public static float conversion(float num, String unit){
         if(unit.equals("ounces")) return num * 8;
         else  return  num / 8; 
     }
@@ -56,8 +56,7 @@ public class OuncesInches {
         && (!inputArr[0].equals("ounces") && !inputArr[1].equals("inches"))) {
             out.println("Sorry, that conversion isn't supported");
         } else {
-            if(inputArr[0].equals("b")) out.println(inputArr[2] + " bananas is " + conversion(Integer.valueOf(inputArr[2]), inputArr[0]) + " inches in length");
-            else out.println(inputArr[2] + " inches corresponds to " + conversion(Integer.valueOf(inputArr[2]), inputArr[0]) + " bananas");
+            out.println(conversion(Float.valueOf(inputArr[2]), inputArr[0]));
         }
         
         // close IO streams, then socket

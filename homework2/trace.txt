@@ -1,5 +1,24 @@
-Trying 161.253.114.182...
-Connected to 161.253.114.182.
+Trying 127.0.0.1...
+Connected to localhost.
 Escape character is '^]'.
-Welcome to the ounces of bananas/yen converter!
-400.0
+Welcome to the inches of bananas/yen converter!
+Converted from inches to ounces: 125.0 ounces
+Converted from ounces to dollars: 250.0 dollars
+Final result: 
+25000.0 yen
+
+This is the result from connecting to the proxy server on a local host.
+
+The proxy server provides conversions from inches of bananas to yen, and vice versa. 
+
+This is done by connecting to the following servers:
+
+    -Inches of bananas to ounces of bananas (Java)
+    -Ounces of bananas to dollars (Python)
+    -Dollars to yen (Python)
+    
+All of these servers were hosted by us, on different machines. 
+
+The conversions are done by passing messages between the proxy and conversion servers. 
+
+Group: Tim Stamler, Malcolm Goldiner
